@@ -1,0 +1,1 @@
+Installare SixaxisPairToolSetup-0.3.1.exe per rilevare il MAC address bluetooth del controller PS3 (connettere via USB)
