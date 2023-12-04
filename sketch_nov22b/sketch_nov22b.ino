@@ -25,6 +25,11 @@ void setup()
 {
     Serial.begin(115200);
     Ps3.begin("a0:5a:5a:a0:09:67");
+
+    Servo1.attach(2);
+    Servo2.attach(3);
+    ESC.attach(6,1000,2000);
+    
     if (!radio.begin()) {
       Serial.println(F("radio hardware is not responding!!"));
       while (1) {}  // hold in infinite loop
@@ -33,19 +38,18 @@ void setup()
     radio.setPALevel(RF24_PA_LOW);  // RF24_PA_MAX is default.
     radio.setPayloadSize(sizeof(payload));
      
-    radio.openWritingPipe(address[radioNumber]);  // always uses pipe 0
+    radio.openWritingPipe(address[radioNumber]); 
     // set the RX address of the TX node into a RX pipe
-    radio.openReadingPipe(1, address[!radioNumber]);  // using pipe 1
+    radio.openReadingPipe(1, address[!radioNumber]); 
     radio.startListening();
 
-    Servo1.attach(2);
-    Servo2.attach(3);
-
-    ESC.attach(6,1000,2000);
+    
 }
 
 void loop() {
   if(radio.available()) {
+    Serial.println(payload[0]);
+    Serial.println(payload[1]);
     radio.read(&payload,sizeof(payload));
     Servo1.write(payload[1]);
     Servo2.write(payload[1]);

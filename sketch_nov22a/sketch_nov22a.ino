@@ -42,17 +42,22 @@ void loop() {
   if (Ps3.isConnected()){
     if( abs(Ps3.event.analog_changed.stick.lx) + abs(Ps3.event.analog_changed.stick.ly) > 2 ){
        Serial.print("Moved the left stick:");
-       Serial.print(" x="); Serial.print(Ps3.data.analog.stick.lx, DEC);
-       Serial.print(" y="); Serial.print(Ps3.data.analog.stick.ly, DEC);
-       payload[0] = map(Ps3.data.analog.stick.ly,0,127,70,110);
+       //Serial.print(" x="); Serial.print(Ps3.data.analog.stick.lx, DEC);
+       //Serial.print(" y="); Serial.print(Ps3.data.analog.stick.ly, DEC);
+       payload[0] = map(Ps3.data.analog.stick.ly,0,127,0,180);
     }
 
     if( abs(Ps3.event.analog_changed.stick.rx) + abs(Ps3.event.analog_changed.stick.ry) > 2 ){
        Serial.print("Moved the right stick:");
-       Serial.print(" x="); Serial.print(Ps3.data.analog.stick.rx, DEC);
-       Serial.print(" y="); Serial.print(Ps3.data.analog.stick.ry, DEC);
+       //Serial.print(" x="); Serial.print(Ps3.data.analog.stick.rx, DEC);
+       //Serial.print(" y="); Serial.print(Ps3.data.analog.stick.ry, DEC);
        payload[1] = map(Ps3.data.analog.stick.rx,-128,127,70,110);
    }
    radio.write(&payload, sizeof(payload));
+  } else {
+    Serial.print("CONTROLLER SCOLLEGATO");
+    payload[0] =  0; // Spento frate
+    payload[1] =  90; //Angolo retto
+    radio.write(&payload, sizeof(payload));
   }
 }
