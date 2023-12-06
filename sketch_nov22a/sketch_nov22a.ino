@@ -40,14 +40,18 @@ void loop() {
   // put your main code here, to run repeatedly:
   //short int payload[2] = {0,0}; //0 = Potenza motore, 1 angolo servo
   if (Ps3.isConnected()){
-    if( abs(Ps3.event.analog_changed.stick.lx) + abs(Ps3.event.analog_changed.stick.ly) > 2 ){
+    if( abs(Ps3.event.analog_changed.stick.lx) + abs(Ps3.event.analog_changed.stick.ly) > 1 ){
        Serial.print("Moved the left stick:");
        //Serial.print(" x="); Serial.print(Ps3.data.analog.stick.lx, DEC);
        //Serial.print(" y="); Serial.print(Ps3.data.analog.stick.ly, DEC);
-       payload[0] = map(Ps3.data.analog.stick.ly,0,127,0,180);
+       if(Ps3.data.analog.stick.ly > 0) {
+        payload[0] = 0;
+       } else {
+        payload[0] = map(Ps3.data.analog.stick.ly,0,-127,0,180);
+       }
     }
 
-    if( abs(Ps3.event.analog_changed.stick.rx) + abs(Ps3.event.analog_changed.stick.ry) > 2 ){
+    if( abs(Ps3.event.analog_changed.stick.rx) + abs(Ps3.event.analog_changed.stick.ry) > 1 ){
        Serial.print("Moved the right stick:");
        //Serial.print(" x="); Serial.print(Ps3.data.analog.stick.rx, DEC);
        //Serial.print(" y="); Serial.print(Ps3.data.analog.stick.ry, DEC);
@@ -55,7 +59,7 @@ void loop() {
    }
    radio.write(&payload, sizeof(payload));
   } else {
-    Serial.print("CONTROLLER SCOLLEGATO");
+    Serial.println("CONTROLLER SCOLLEGATO");
     payload[0] =  0; // Spento frate
     payload[1] =  90; //Angolo retto
     radio.write(&payload, sizeof(payload));

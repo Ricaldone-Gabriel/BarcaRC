@@ -48,8 +48,8 @@ void setup()
 
 void loop() {
   if(radio.available()) {
-    Serial.println(payload[0]);
-    Serial.println(payload[1]);
+    Serial.println("Motore: " + payload[0]);
+    Serial.println("Angolo: " + payload[1]);
     radio.read(&payload,sizeof(payload));
     Servo1.write(payload[1]);
     Servo2.write(payload[1]);
