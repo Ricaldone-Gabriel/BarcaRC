@@ -200,8 +200,9 @@ void setup()
 
     Ps3.attach(notify);
     Ps3.attachOnConnect(onConnect);
-    Ps3.begin("a0:5a:5a:a0:09:67");
-
+    Ps3.begin("98:B6:F0:43:28:95");
+    //95:28:43:F0:B6:98
+    //98:B6:F0:43:28:95
     Serial.println("Ready.");
 }
 
